@@ -100,14 +100,27 @@ class FusedLeakyReLU(nn.Module):
     def forward(self, input):
         return fused_leaky_relu(input, self.bias, self.negative_slope, self.scale)
 
+def bias_broadcasting(input_shape, bias_shape):
+    '''
+    In the input size list, find the position of the sublist that matches to the bias size 
+    '''
+    input_shape = torch.tensor(input_shape)
+    bias_shape = torch.tensor(bias_shape)
+
+    input_shape_windows = input_shape.unfold(dimension=0, size=len(bias_shape), step=1)
+    pos = (input_shape_windows == bias_shape).nonzero(as_tuple=True)[0][0]
+    
+    new_bias_view = [1] * len(input_shape)
+    new_bias_view[pos : pos + len(bias_shape)] = bias_shape
+    return new_bias_view
 
 def fused_leaky_relu(input, bias=None, negative_slope=0.2, scale=2 ** 0.5):
     if input.device.type == "cpu":
         if bias is not None:
-            rest_dim = [1] * (input.ndim - bias.ndim - 1)
+            new_bias_view = bias_broadcasting(input.shape, bias.shape)
             return (
                 F.leaky_relu(
-                    input + bias.view(1, bias.shape[0], *rest_dim), negative_slope=0.2
+                    input + bias.view(new_bias_view), negative_slope=0.2
                 )
                 * scale
             )

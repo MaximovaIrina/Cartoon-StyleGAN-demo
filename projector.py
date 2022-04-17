@@ -74,7 +74,7 @@ def make_image(tensor):
 
 
 if __name__ == "__main__":
-    device = "cuda"
+    device = "cpu"
 
     # -----------------------------------
     # Parser
@@ -117,7 +117,7 @@ if __name__ == "__main__":
         default=0.75,
         help="duration of the noise level decay",
     )
-    parser.add_argument("--step", type=int, default=1000, help="optimize iterations")
+    parser.add_argument("--step", type=int, default=25, help="optimize iterations")
     parser.add_argument(
         "--noise_regularize",
         type=float,
@@ -240,7 +240,7 @@ if __name__ == "__main__":
 
     # PerceptualLoss
     percept = lpips.PerceptualLoss(
-        model="net-lin", net="vgg", use_gpu=device.startswith("cuda")
+        model="net-lin", net="vgg", use_gpu=device.startswith("cpu")
     )
 
 
@@ -312,12 +312,13 @@ if __name__ == "__main__":
 
         noise_normalize_(noises)
 
-        if (i + 1) % 100 == 0:
+        if (i + 1) % 1 == 0:
             latent_path.append(latent_in.detach().clone())
             proj_images.append(img_gen)
 
         pbar.set_description(
             (
+                f"step: {i:.4f}; "
                 f"perceptual: {p_loss.item():.4f}; noise regularize: {n_loss.item():.4f}; "
                 f"reconstruction: {r_loss:.4f}; "
                 f"mse_img: {mse_loss.item():.4f}; mse_latent: {style_loss:.4f}; lr: {lr:.4f} |"

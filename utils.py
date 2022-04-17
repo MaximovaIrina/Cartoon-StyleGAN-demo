@@ -1,4 +1,5 @@
 import os
+from rsa import verify
 import torch
 import matplotlib.pyplot as plt
 import math
@@ -36,13 +37,14 @@ def download_pretrained_model(download_all=True, file=''):
         for nn in google_drive_paths:
             url = google_drive_paths[nn]
             networkfile = os.path.join('networks', nn)
-            drive_download(url, networkfile, quiet=False)
+            if not os.path.exists(networkfile):
+                drive_download(url, networkfile, quiet=False, use_cookies=False, verify=False)
 
     else:
         url = google_drive_paths[file]
         networkfile = os.path.join('networks', file)
-
-        drive_download(url, networkfile, quiet=False)
+        if not os.path.exists(networkfile):
+            drive_download(url, networkfile, quiet=False, use_cookies=False, verify=False)
         
 
 # ---------------
@@ -56,7 +58,7 @@ def ensure_checkpoint_exists(model_weights_filename):
         try:
             from gdown import download as drive_download
 
-            drive_download(gdrive_url, model_weights_filename, quiet=False)
+            drive_download(gdrive_url, model_weights_filename, quiet=False, use_cookies=False, verify=False)
         except ModuleNotFoundError:
             print(
                 "gdown module not found.",
@@ -97,11 +99,11 @@ def tensor2image(tensor):
     tensor = tensor.clamp_(-1., 1.).detach().squeeze().permute(1,2,0).cpu().numpy()
     return tensor*0.5 + 0.5
 
-def imshow(img, size=5, cmap='jet'):
+def imshow(filename, img, size=5, cmap='jet'):
     plt.figure(figsize=(size,size))
     plt.imshow(img, cmap=cmap)
     plt.axis('off')
-    plt.show()
+    plt.savefig(filename)
 
 def save_image(img, size=5, out='output.png' , cmap='jet'):
     plt.figure(figsize=(size,size))
