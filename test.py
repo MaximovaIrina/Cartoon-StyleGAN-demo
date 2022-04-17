@@ -19,7 +19,7 @@ class TestGeneratorsExecution(unittest.TestCase):
         create_video(self.outdir, self.video_name, self.number_of_img, self.number_of_step)       
         self.assertTrue(os.path.exists(f'{self.outdir}/{self.video_name}.mp4'))
 
-        shutil.rmtree(self.outdir, ignore_errors=True)
+        shutil.rmtree(self.outdir)
 
 
 if __name__ == '__main__':

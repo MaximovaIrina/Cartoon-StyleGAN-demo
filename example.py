@@ -103,15 +103,14 @@ def generate_images(generators, number_of_img, number_of_step, outdir, tqdm_disa
 
 
 def create_video(outdir, video_name, number_of_img, number_of_step):
-    im = Image.open(f'{outdir}/out-0.png')
-    frameSize = im.size
-    fourcc = cv2.VideoWriter_fourcc(*'XVID')
-    video = cv2.VideoWriter(f'{outdir}/{video_name}.mp4', fourcc, 11., frameSize)
+    im = cv2.imread(f'{outdir}/out-0.png')
+    frameSize = im.shape[:-1][::-1]
+    fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+    video = cv2.VideoWriter(f'{outdir}/{video_name}.mp4', fourcc, 5., frameSize)
 
     for i in range(number_of_img*(number_of_step)):
-        im = pilimg.open(f'{outdir}/out-{i}.png')
-        np_img = np.asarray(im)
-        frame = cv2.cvtColor(np_img, cv2.COLOR_RGB2BGR)
+        frame = cv2.imread(f'{outdir}/out-{i}.png')
+        frame = np.asarray(frame)
         video.write(frame)
     video.release()
 
@@ -128,6 +127,7 @@ def main(args):
     print("Starting video creation")
     create_video(args.outdir, args.video_name, args.number_of_img, args.number_of_step)
     print(f"Video saved in {args.outdir}/{args.video_name}.mp4")
+
     print(f"Finish")
 
 

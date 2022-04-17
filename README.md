@@ -2,24 +2,53 @@
 
 Source: [Cartoon-StyleGAN](https://github.com/happy-jihye/Cartoon-StyleGAN)
 
-**Install Docker** 
+### Clone repo
+```
+git clone https://github.com/MaximovaIrina/Cartoon-StyleGAN-example.git  
+cd Cartoon-StyleGAN-example
+```
 
-```none ```
+### Setup CPU docker 
+``` 
+docker run -it -v "$(pwd)":/Cartoon-StyleGAN-example ubuntu:latest bash
+apt-get update
+apt-get install python3
+apt install python-is-python3
+apt install python3-pip
+apt install git
+apt-get install ffmpeg libsm6 libxext6 -y
+```
 
-``` create: docker run -i -t ubuntu:latest /bin/bash ```
-``` create: apt-get update -> apt-get install python3 -> apt install python-is-python3 ```
-``` show all: docker ps -a ```
-``` show all: docker export ID > test.tar ```
-``` show all: docker import - NAME < test.tar ```
-``` show all: docker images ```
-``` show all: docker run -i -t test:latest /bin/bash ```
-```  ```
+### Install requirements
+```
+cd Cartoon-StyleGAN-example
+pip install -r requirements.txt
+```
 
-**Run tests**  
+### Download pretrained models
+```
+python download_pretrained.py
+```
 
-``` python -m unittest -v test ```
+### Run tests
+```
+python -m unittest -v test
+```
 
-**Run Inference example**
+### Run Inference example
+```
+python example.py --outdir outputs --video_name example_video --number_of_img 2 --number_of_step 7
+```
+Check result in `outputs` folder
 
-```python exampe.py --outdir outputs --video_name example_video --number_of_img 2 --number_of_step 7```
+### Close docker 
+```
+exit
+docker ps -a
+docker images
+```
 
+```
+docker rm CONTAINER_ID
+docker image rm IMAGE_ID
+```
