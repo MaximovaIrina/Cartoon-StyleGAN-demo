@@ -3,6 +3,9 @@ from rsa import verify
 import torch
 import matplotlib.pyplot as plt
 import math
+import urllib3
+
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 google_drive_paths = {
     "ffhq256.pt" : "https://drive.google.com/uc?id=1PQutd-JboOCOZqmd95XWxWrO8gGEvRcO",
