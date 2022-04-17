@@ -9,6 +9,7 @@ import cv2
 import numpy as np
 from tqdm import tqdm
 import argparse
+from utils import download_pretrained_model
 
 
 from model import Generator
@@ -16,6 +17,8 @@ from model import Generator
 device='cpu'
 
 def init_generators():
+    download_pretrained_model(download_all=True)
+
     # Genearaotr1
     network1 = torch.load('networks/ffhq256.pt', map_location=device)
     g1 = Generator(256, 512, 8, channel_multiplier=2).to(device)
