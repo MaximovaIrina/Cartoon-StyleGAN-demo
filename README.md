@@ -5,7 +5,7 @@ Source: [Cartoon-StyleGAN](https://github.com/happy-jihye/Cartoon-StyleGAN)
 ## 1 Prepare Docker
 If you don't have docker, install it using the [original documentation](https://docs.docker.com/get-docker/)
 
-### 1.1 Clone repo
+### Clone repo
 ```
 git clone https://github.com/MaximovaIrina/Cartoon-StyleGAN-example.git  
 cd Cartoon-StyleGAN-example
