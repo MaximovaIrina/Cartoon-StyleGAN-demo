@@ -20,7 +20,7 @@ Windows:
 ```
 docker run -it -v /YOUR/PATH/TO/Cartoon-StyleGAN-example:/Cartoon-StyleGAN-example ubuntu:20.04 bash
 ```
-Note: use ubuntu:20.04 (35MB) instead of ubuntu:latest (5GB)
+Note: use ubuntu:20.04 (35MB) image instead of ubuntu:latest (5GB)
 
 ## Setup docker
 ```
