@@ -1,4 +1,4 @@
-# Cartoon-StyleGAN 🙃 : Fine-tuning StyleGAN2 for Cartoon Face Generation
+# Cartoon-StyleGAN Demo 🙃
 
 Source: [Cartoon-StyleGAN](https://github.com/happy-jihye/Cartoon-StyleGAN)
 
